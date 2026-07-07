@@ -294,13 +294,9 @@ footer a:hover{color:var(--gold-bright)}
           <button class="btn btn-gold" type="submit">Sign Up</button>
         </form>
         <p class="form-note">No spam — just the free guide and the occasional update.</p>
-        <ul style="display:flex;gap:14px;margin-top:20px;flex-wrap:wrap">
-          <li><a href="#" onclick="return socialPh()">Facebook</a></li>
-          <li><a href="#" onclick="return socialPh()">LinkedIn</a></li>
-          <li><a href="#" onclick="return socialPh()">Instagram</a></li>
-          <li><a href="#" onclick="return socialPh()">YouTube</a></li>
-          <li><a href="https://www.amazon.com/stores/Michael-Wilson/author/B0BNP91RPR" target="_blank" rel="noopener">Amazon Author Page</a></li>
-        </ul>
+        <!-- Populated from AUTHOR_LINKS in the script. Empty entries are hidden,
+             so there are never any dead links. -->
+        <ul id="social-links" style="display:flex;gap:14px;margin-top:20px;flex-wrap:wrap"></ul>
       </div>
     </div>
     <div class="copyright">&copy; Michael JP Wilson. All rights reserved.</div>
@@ -580,7 +576,26 @@ function goToSection(id){
   setTimeout(()=>{ document.getElementById(id)?.scrollIntoView({behavior:"smooth"}); }, 80);
   return false;
 }
-function socialPh(){alert("Social link placeholder. Add your profile URL here.");return false;}
+/* ---------- Social / author links ----------
+   Paste real URLs here to show each link (footer + Contact page).
+   Leave a value as "" and that link stays hidden — so there are never
+   any dead links. The Amazon Author Page is already live. */
+const AUTHOR_LINKS = {
+  "Amazon Author Page":        "https://www.amazon.com/stores/Michael-Wilson/author/B0BNP91RPR",
+  "Facebook":                  "",
+  "LinkedIn":                  "",
+  "Instagram":                 "",
+  "YouTube":                   "",
+  "Barnes & Noble Author Page":"",
+  "Audiobook Author Page":     ""
+};
+function renderSocial(){
+  const html = Object.entries(AUTHOR_LINKS)
+    .filter(([,url]) => url && /^https?:\/\//.test(url))
+    .map(([name,url]) => `<li><a href="${esc(url)}" target="_blank" rel="noopener">${esc(name)}</a></li>`)
+    .join("");
+  document.querySelectorAll("#social-links, #connect-links").forEach(ul => { ul.innerHTML = html; });
+}
 
 /* ============================================================
    PAGES
@@ -965,15 +980,7 @@ const PAGES = {
       </form>
       <div class="divider"></div>
       <h3>Connect With Michael</h3>
-      <ul class="chiplist">
-        <li><a href="#" onclick="return socialPh()">Facebook</a></li>
-        <li><a href="#" onclick="return socialPh()">LinkedIn</a></li>
-        <li><a href="#" onclick="return socialPh()">Instagram</a></li>
-        <li><a href="#" onclick="return socialPh()">YouTube</a></li>
-        <li><a href="https://www.amazon.com/stores/Michael-Wilson/author/B0BNP91RPR" target="_blank" rel="noopener">Amazon Author Page</a></li>
-        <li><a href="#" onclick="return socialPh()">Barnes &amp; Noble Author Page</a></li>
-        <li><a href="#" onclick="return socialPh()">Audiobook Author Page</a></li>
-      </ul>
+      <ul class="chiplist" id="connect-links"></ul>
     </div>
   </section>`;}
 }
@@ -1053,6 +1060,7 @@ function router(){
   document.querySelectorAll("[data-nav]").forEach(a=>{
     a.classList.toggle("active",a.getAttribute("data-nav")===path||(path.startsWith("/books")&&a.getAttribute("data-nav")==="/books"));
   });
+  renderSocial();
   window.scrollTo(0,0);
 }
 
@@ -1061,6 +1069,8 @@ document.getElementById("footer-books").innerHTML=
   BOOKS.map(b=>b.links.amazon
     ? `<li><a href="${esc(b.links.amazon)}" target="_blank" rel="noopener">${esc(b.title)}</a></li>`
     : `<li><a href="#/books/${b.slug}">${esc(b.title)}</a></li>`).join("");
+
+renderSocial();
 
 window.addEventListener("hashchange",router);
 router();
