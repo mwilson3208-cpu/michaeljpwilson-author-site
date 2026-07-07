@@ -170,6 +170,9 @@ label{font-size:.85rem;font-weight:700;letter-spacing:.03em}
 .form-note{font-size:.85rem;color:var(--gold-bright);margin-top:6px;display:none}
 .form-note.show{display:block}
 .form-note.light{color:var(--navy)}
+.form-note.success{color:#1E7A46;font-weight:600}
+.form-note.error{color:#C0392B;font-weight:600}
+button[disabled]{opacity:.6;cursor:progress}
 
 /* ---------- Topic / feature cards ---------- */
 .cards3{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-top:44px}
@@ -286,11 +289,11 @@ footer a:hover{color:var(--gold-bright)}
       <div>
         <h4>Get the Free Guide</h4>
         <p style="font-size:.9rem;margin-bottom:12px">10 Questions to Clarify the Book You Were Born to Write.</p>
-        <form class="footer-form" onsubmit="return formPlaceholder(event)">
-          <input type="email" placeholder="Email address" aria-label="Email address" required>
+        <form class="footer-form" onsubmit="return submitForm(event,'Free Guide Request (Footer)')">
+          <input type="email" name="email" placeholder="Email address" aria-label="Email address" required>
           <button class="btn btn-gold" type="submit">Sign Up</button>
         </form>
-        <p class="form-note">Placeholder form. Connect your email platform to make this live.</p>
+        <p class="form-note">No spam — just the free guide and the occasional update.</p>
         <ul style="display:flex;gap:14px;margin-top:20px;flex-wrap:wrap">
           <li><a href="#" onclick="return socialPh()">Facebook</a></li>
           <li><a href="#" onclick="return socialPh()">LinkedIn</a></li>
@@ -504,21 +507,74 @@ function optinHTML(light=false){
       <h2>10 Questions to Clarify the Book You Were Born to Write</h2>
       <p class="lede" style="margin-top:14px">Thinking about writing a book? Start here. This free guide walks you through the ten questions every serious author answers before writing a single chapter.</p>
     </div>
-    <form onsubmit="return formPlaceholder(event)">
-      <input type="text" placeholder="First name" aria-label="First name" required>
-      <input type="email" placeholder="Email address" aria-label="Email address" required>
+    <form onsubmit="return submitForm(event,'Free Guide Request')">
+      <input type="text" name="name" placeholder="First name" aria-label="First name" required>
+      <input type="email" name="email" placeholder="Email address" aria-label="Email address" required>
       <button class="btn btn-gold" type="submit">Get the Free Guide</button>
-      <p class="form-note">Placeholder form. Connect your email marketing platform to make this live.</p>
+      <p class="form-note">No spam — just the free guide and the occasional update.</p>
     </form>
   </div>`;
 }
 
-function formPlaceholder(e){
+/* ============================================================
+   FORM SUBMISSION  (Formspree)
+   1. Create a free form at https://formspree.io
+   2. Paste your endpoint below, replacing REPLACE_WITH_YOUR_FORM_ID.
+      It looks like:  https://formspree.io/f/abcdwxyz
+   All five forms post to this one endpoint; each submission is
+   tagged with a subject so you can tell them apart in your inbox.
+   ============================================================ */
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID";
+
+function setNote(note, msg, kind){
+  if(!note) return;
+  note.textContent = msg;
+  note.classList.remove("success","error");
+  if(kind) note.classList.add(kind);
+  note.classList.add("show");
+}
+
+async function submitForm(e, subject){
   e.preventDefault();
-  const n=e.target.querySelector(".form-note")||e.target.parentElement.querySelector(".form-note");
-  if(n)n.classList.add("show");
+  const form = e.target;
+  const note = form.querySelector(".form-note") || form.parentElement.querySelector(".form-note");
+  const btn  = form.querySelector('button[type="submit"]');
+
+  if(FORMSPREE_ENDPOINT.indexOf("REPLACE_WITH_YOUR_FORM_ID") !== -1){
+    setNote(note, "This form isn't connected yet. Add your Formspree endpoint to make it live.", "error");
+    return false;
+  }
+
+  const original = btn ? btn.textContent : "";
+  if(btn){ btn.disabled = true; btn.textContent = "Sending…"; }
+  setNote(note, "Sending…", null);
+
+  try{
+    const data = new FormData(form);
+    if(subject) data.append("_subject", subject + " — michaeljpwilson.com");
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      body: data,
+      headers: { "Accept": "application/json" }
+    });
+    if(res.ok){
+      form.reset();
+      setNote(note, "Thank you — your message was sent. Michael will be in touch soon.", "success");
+    } else {
+      let msg = "Something went wrong. Please try again, or email michael directly.";
+      try{ const j = await res.json(); if(j && j.errors) msg = j.errors.map(x=>x.message).join(" "); }catch(_){}
+      setNote(note, msg, "error");
+    }
+  } catch(_){
+    setNote(note, "Network error — please check your connection and try again.", "error");
+  } finally {
+    if(btn){ btn.disabled = false; btn.textContent = original; }
+  }
   return false;
 }
+
+/* kept as a safe fallback for any not-yet-wired form */
+function formPlaceholder(e){ return submitForm(e, "Website Form"); }
 function goToSection(id){
   if((location.hash||"#/") !== "#/"){ location.hash = "#/"; }
   setTimeout(()=>{ document.getElementById(id)?.scrollIntoView({behavior:"smooth"}); }, 80);
@@ -739,18 +795,18 @@ const PAGES = {
         <h2>Speaking Inquiry</h2>
         <p class="lede mt-24">Tell Michael about your event and he will follow up with availability and details.</p>
       </div>
-      <form class="mt-40" style="display:grid;gap:16px" onsubmit="return formPlaceholder(event)">
+      <form class="mt-40" style="display:grid;gap:16px" onsubmit="return submitForm(event,'Speaking Inquiry')">
         <div class="field-2col">
-          <div><label for="s-name">Name</label><input id="s-name" type="text" required></div>
-          <div><label for="s-email">Email</label><input id="s-email" type="email" required></div>
+          <div><label for="s-name">Name</label><input id="s-name" name="name" type="text" required></div>
+          <div><label for="s-email">Email</label><input id="s-email" name="email" type="email" required></div>
         </div>
-        <div><label for="s-org">Organization or Event</label><input id="s-org" type="text"></div>
+        <div><label for="s-org">Organization or Event</label><input id="s-org" name="organization" type="text"></div>
         <div><label for="s-format">Event Format</label>
-          <select id="s-format"><option>Keynote</option><option>Workshop</option><option>Panel discussion</option><option>Book club visit</option><option>Podcast interview</option><option>Virtual talk</option><option>Business training</option></select>
+          <select id="s-format" name="format"><option>Keynote</option><option>Workshop</option><option>Panel discussion</option><option>Book club visit</option><option>Podcast interview</option><option>Virtual talk</option><option>Business training</option></select>
         </div>
-        <div><label for="s-msg">Event Details</label><textarea id="s-msg" placeholder="Date, location, audience size, and topic of interest"></textarea></div>
+        <div><label for="s-msg">Event Details</label><textarea id="s-msg" name="details" placeholder="Date, location, audience size, and topic of interest"></textarea></div>
         <button class="btn btn-gold" type="submit" style="justify-self:start">Invite Michael to Speak</button>
-        <p class="form-note light">Placeholder form. Connect your form service or email to make this live.</p>
+        <p class="form-note light">Michael personally reviews every speaking request.</p>
       </form>
     </div>
   </section>`;}
@@ -865,15 +921,15 @@ const PAGES = {
         <p class="eyebrow">Get in Touch</p>
         <h2>Media Inquiry</h2>
       </div>
-      <form class="mt-40" style="display:grid;gap:16px" onsubmit="return formPlaceholder(event)">
+      <form class="mt-40" style="display:grid;gap:16px" onsubmit="return submitForm(event,'Media Inquiry')">
         <div class="field-2col">
-          <div><label for="m-name">Name</label><input id="m-name" type="text" required></div>
-          <div><label for="m-email">Email</label><input id="m-email" type="email" required></div>
+          <div><label for="m-name">Name</label><input id="m-name" name="name" type="text" required></div>
+          <div><label for="m-email">Email</label><input id="m-email" name="email" type="email" required></div>
         </div>
-        <div><label for="m-outlet">Outlet, Show, or Publication</label><input id="m-outlet" type="text"></div>
-        <div><label for="m-msg">Request Details</label><textarea id="m-msg" placeholder="Interview topic, format, timeline, and audience"></textarea></div>
+        <div><label for="m-outlet">Outlet, Show, or Publication</label><input id="m-outlet" name="outlet" type="text"></div>
+        <div><label for="m-msg">Request Details</label><textarea id="m-msg" name="details" placeholder="Interview topic, format, timeline, and audience"></textarea></div>
         <button class="btn btn-gold" type="submit" style="justify-self:start">Send Media Inquiry</button>
-        <p class="form-note light">Placeholder form. Connect your form service or email to make this live.</p>
+        <p class="form-note light">Michael responds to media requests personally.</p>
       </form>
     </div>
   </section>`;}
@@ -892,20 +948,20 @@ const PAGES = {
   </div>
   <section>
     <div class="wrap" style="max-width:720px">
-      <form style="display:grid;gap:16px" onsubmit="return formPlaceholder(event)">
+      <form style="display:grid;gap:16px" onsubmit="return submitForm(event,'Contact Form')">
         <div class="field-2col">
-          <div><label for="c-name">Name</label><input id="c-name" type="text" required></div>
-          <div><label for="c-email">Email</label><input id="c-email" type="email" required></div>
+          <div><label for="c-name">Name</label><input id="c-name" name="name" type="text" required></div>
+          <div><label for="c-email">Email</label><input id="c-email" name="email" type="email" required></div>
         </div>
-        <div><label for="c-subject">Subject</label><input id="c-subject" type="text"></div>
+        <div><label for="c-subject">Subject</label><input id="c-subject" name="subject" type="text"></div>
         <div><label for="c-reason">Reason for Contact</label>
-          <select id="c-reason">
+          <select id="c-reason" name="reason">
             <option>Book Inquiry</option><option>Speaking Inquiry</option><option>Author Coaching</option><option>Media Interview</option><option>Book Club</option><option>General Message</option>
           </select>
         </div>
-        <div><label for="c-msg">Message</label><textarea id="c-msg" required></textarea></div>
+        <div><label for="c-msg">Message</label><textarea id="c-msg" name="message" required></textarea></div>
         <button class="btn btn-gold" type="submit" style="justify-self:start">Send Message</button>
-        <p class="form-note light">Placeholder form. Connect your form service or contact email to make this live.</p>
+        <p class="form-note light">Michael reads every message personally.</p>
       </form>
       <div class="divider"></div>
       <h3>Connect With Michael</h3>
