@@ -395,7 +395,7 @@ footer a:hover{color:var(--gold-bright)}
       </div>
       <div>
         <h4>Explore</h4>
-        <ul>
+        <ul id="explore-links">
           <li><a href="#/" onclick="return goToSection('about-the-author')">About Michael</a></li>
           <li><a href="#/speaking">Speaking</a></li>
           <li><a href="#/coaching">Author Coaching</a></li>
@@ -716,16 +716,20 @@ const SOCIAL_ICONS = {
 };
 function renderSocial(){
   const live = Object.entries(AUTHOR_LINKS).filter(([,url]) => url && /^https?:\/\//.test(url));
-  // Footer: icon buttons for known networks, text links for the rest
-  const footerHtml = live.map(([name,url]) => SOCIAL_ICONS[name]
-    ? `<li><a class="social-icon" href="${esc(url)}" target="_blank" rel="noopener" aria-label="${esc(name)}" title="${esc(name)}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${SOCIAL_ICONS[name]}</svg></a></li>`
-    : `<li><a href="${esc(url)}" target="_blank" rel="noopener">${esc(name)}</a></li>`
+  // Footer social row: icon buttons only
+  const footerHtml = live.filter(([name]) => SOCIAL_ICONS[name]).map(([name,url]) =>
+    `<li><a class="social-icon" href="${esc(url)}" target="_blank" rel="noopener" aria-label="${esc(name)}" title="${esc(name)}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${SOCIAL_ICONS[name]}</svg></a></li>`
   ).join("");
+  // Non-icon author links (Amazon, B&N, audiobook) go under the footer's Explore column
+  const exploreHtml = live.filter(([name]) => !SOCIAL_ICONS[name]).map(([name,url]) =>
+    `<li class="ext"><a href="${esc(url)}" target="_blank" rel="noopener">${esc(name)}</a></li>`).join("");
   // Contact page "Connect With Michael": text chips
   const connectHtml = live.map(([name,url]) =>
     `<li><a href="${esc(url)}" target="_blank" rel="noopener">${esc(name)}</a></li>`).join("");
   const f = document.getElementById("social-links");   if(f) f.innerHTML = footerHtml;
   const c = document.getElementById("connect-links");  if(c) c.innerHTML = connectHtml;
+  const ex = document.getElementById("explore-links");
+  if(ex){ ex.querySelectorAll("li.ext").forEach(li=>li.remove()); ex.insertAdjacentHTML("beforeend", exploreHtml); }
 }
 
 /* ============================================================
