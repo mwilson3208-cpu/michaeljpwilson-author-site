@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# Keep the email-gated free guide out of search results
+Disallow: /downloads/
+
+Sitemap: https://michaeljpwilson.com/sitemap.xml
