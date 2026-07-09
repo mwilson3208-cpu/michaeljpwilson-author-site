@@ -309,7 +309,7 @@ footer a:hover{color:var(--gold-bright)}
       <div>
         <h4>Get the Free Guide</h4>
         <p style="font-size:.9rem;margin-bottom:12px">10 Questions to Clarify the Book You Were Born to Write.</p>
-        <form class="footer-form" onsubmit="return submitForm(event,'Free Guide Request (Footer)')">
+        <form class="footer-form" onsubmit="return submitForm(event,'Free Guide Request (Footer)','#/guide')">
           <input type="email" name="email" placeholder="Email address" aria-label="Email address" required>
           <button class="btn btn-gold" type="submit">Sign Up</button>
         </form>
@@ -523,7 +523,7 @@ function optinHTML(light=false){
       <h2>10 Questions to Clarify the Book You Were Born to Write</h2>
       <p class="lede" style="margin-top:14px">Thinking about writing a book? Start here. This free guide walks you through the ten questions every serious author answers before writing a single chapter.</p>
     </div>
-    <form onsubmit="return submitForm(event,'Free Guide Request')">
+    <form onsubmit="return submitForm(event,'Free Guide Request','#/guide')">
       <input type="text" name="name" placeholder="First name" aria-label="First name" required>
       <input type="email" name="email" placeholder="Email address" aria-label="Email address" required>
       <button class="btn btn-gold" type="submit">Get the Free Guide</button>
@@ -550,7 +550,7 @@ function setNote(note, msg, kind){
   note.classList.add("show");
 }
 
-async function submitForm(e, subject){
+async function submitForm(e, subject, redirect){
   e.preventDefault();
   const form = e.target;
   const note = form.querySelector(".form-note") || form.parentElement.querySelector(".form-note");
@@ -575,6 +575,7 @@ async function submitForm(e, subject){
     });
     if(res.ok){
       form.reset();
+      if(redirect){ location.hash = redirect; return false; }
       setNote(note, "Thank you — your message was sent. Michael will be in touch soon.", "success");
     } else {
       let msg = "Something went wrong. Please try again, or email michael directly.";
@@ -1002,6 +1003,41 @@ const PAGES = {
       <div class="divider"></div>
       <h3>Connect With Michael</h3>
       <ul class="chiplist" id="connect-links"></ul>
+    </div>
+  </section>`;}
+},
+
+"/guide": {
+  title: "Your Free Guide | 10 Questions to Clarify the Book You Were Born to Write",
+  desc: "Download your free guide: 10 Questions to Clarify the Book You Were Born to Write, by Michael JP Wilson.",
+  render(){ return `
+  <div class="pagehero">
+    <div class="wrap">
+      <p class="eyebrow">You're In</p>
+      <h1>Your Guide Is Ready</h1>
+      <p class="lede">Thank you — here is your free copy of <em>10 Questions to Clarify the Book You Were Born to Write</em>.</p>
+    </div>
+  </div>
+  <section>
+    <div class="wrap" style="max-width:720px">
+      <div class="center">
+        <p class="eyebrow">Free Author Resource</p>
+        <h2>10 Questions to Clarify the Book You Were Born to Write</h2>
+        <p class="lede mt-24" style="margin-left:auto;margin-right:auto">This short guide walks you through the ten questions every serious author answers before writing a single chapter. Work through them honestly and you'll know exactly what your book is — and why you're the one to write it.</p>
+        <div class="btn-row mt-40" style="justify-content:center">
+          <a class="btn btn-gold" href="downloads/10-questions-book-clarity-guide.pdf" download="10 Questions to Clarify the Book You Were Born to Write - Michael JP Wilson.pdf">Download the Guide (PDF)</a>
+        </div>
+        <p class="mt-24" style="font-size:.9rem;color:var(--gray)">The download starts immediately — no further steps. If it opens in your browser instead, use your browser's save button to keep a copy.</p>
+      </div>
+      <div class="divider"></div>
+      <div class="center">
+        <h2 class="sub">While You're Here</h2>
+        <p class="lede" style="margin:14px auto 0">Ready to go further? Michael helps entrepreneurs, professionals, and leaders turn their expertise into published books.</p>
+        <div class="btn-row mt-40" style="justify-content:center">
+          <a class="btn btn-navy" href="#/coaching">Explore Author Coaching</a>
+          <a class="btn btn-outline-navy" href="#/books">Browse Michael's Books</a>
+        </div>
+      </div>
     </div>
   </section>`;}
 }
