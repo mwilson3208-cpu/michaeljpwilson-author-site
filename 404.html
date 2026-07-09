@@ -175,6 +175,7 @@ section{padding:88px 0}
 .portrait{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top;border-radius:var(--radius);box-shadow:0 18px 44px rgba(15,30,51,.25)}
 .portrait.square{aspect-ratio:1/1}
 .portrait-ph{aspect-ratio:4/5;background:linear-gradient(160deg,var(--navy) 0%,var(--navy-mid) 100%);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--gold-soft);font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(198,161,91,.35);text-align:center;padding:20px}
+.portrait{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:center top;border-radius:var(--radius);border:1px solid rgba(198,161,91,.35);box-shadow:0 18px 40px rgba(15,30,51,.18)}
 
 /* ---------- Opt-in ---------- */
 .optin{background:var(--navy);color:var(--white);border-radius:10px;padding:56px 48px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;position:relative;overflow:hidden}
@@ -788,7 +789,8 @@ const PAGES = {
           <p class="mt-24">Michael JP Wilson brings the credibility of an Army veteran, the practicality of a working entrepreneur, and the clarity of a published author to every stage. His talks are direct, actionable, and built around one goal: your audience leaves knowing exactly what to do next.</p>
           <div class="btn-row mt-40"><a class="btn btn-gold" href="#speak-form" onclick="setTimeout(()=>document.getElementById('speak-form')?.scrollIntoView({behavior:'smooth'}),50)">Invite Michael to Speak</a></div>
         </div>
-        <div class="portrait-ph">Speaker Photo Placeholder<br>Add photo of Michael on stage</div>
+        <img class="portrait" src="images/michael-speaking.jpg" width="1122" height="1402" loading="lazy" decoding="async" alt="Michael JP Wilson speaking on stage with a microphone to a large seated audience">
+
       </div>
 
       <div class="divider"></div>
