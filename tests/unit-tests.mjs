@@ -45,6 +45,8 @@ const browser = await chromium.launch(CHROME ? { executablePath: CHROME } : {});
 const page = await browser.newPage();
 const pageErrors = [];
 page.on("pageerror", e => pageErrors.push(e.message));
+const COVERAGE = !!process.env.COVERAGE;
+if (COVERAGE) await page.coverage.startJSCoverage({ resetOnNavigation: false });
 await page.goto(BASE, { waitUntil: "networkidle" });
 
 /** Run a test function inside the page. It must return {ok, detail?}. */
@@ -288,6 +290,76 @@ await t("optinHTML wires submitForm with guide redirect", () => {
   return { ok: html.includes("submitForm(event") && html.includes("#/guide") && html.includes('name="email"') };
 });
 
+console.log("\n— branch-coverage edge cases —");
+await t("submitForm: note outside the form (footer layout)", async () => {
+  const wrap = document.createElement("div");
+  wrap.innerHTML = '<form><button type="submit">Go</button></form><p class="form-note"></p>';
+  document.body.appendChild(wrap);
+  const oldFetch = window.fetch;
+  window.fetch = async () => ({ ok: true, json: async () => ({}) });
+  try {
+    await submitForm({ preventDefault(){}, target: wrap.querySelector("form") }, "T");
+    return { ok: /Thank you/.test(wrap.querySelector(".form-note").textContent) };
+  } finally { window.fetch = oldFetch; wrap.remove(); }
+});
+await t("submitForm: form with no submit button, no subject", async () => {
+  const f = document.createElement("form");
+  f.innerHTML = '<p class="form-note"></p>';
+  document.body.appendChild(f);
+  const oldFetch = window.fetch; let subj = "unset";
+  window.fetch = async (u, o) => { subj = o.body.get("_subject"); return { ok: true, json: async () => ({}) }; };
+  try {
+    await submitForm({ preventDefault(){}, target: f });
+    return { ok: /Thank you/.test(f.querySelector(".form-note").textContent) && subj === null, detail: "subject=" + subj };
+  } finally { window.fetch = oldFetch; f.remove(); }
+});
+await t("submitForm: 4xx with invalid JSON -> default error message", async () => {
+  const f = document.createElement("form");
+  f.innerHTML = '<button type="submit">Go</button><p class="form-note"></p>';
+  document.body.appendChild(f);
+  const oldFetch = window.fetch;
+  window.fetch = async () => ({ ok: false, json: async () => { throw new Error("bad json"); } });
+  try {
+    await submitForm({ preventDefault(){}, target: f }, "T");
+    return { ok: /Something went wrong/.test(f.querySelector(".form-note").textContent) };
+  } finally { window.fetch = oldFetch; f.remove(); }
+});
+await t("goToSection with empty hash (no current route)", async () => {
+  history.replaceState(null, "", location.pathname); // strip hash entirely
+  const ret = goToSection("books-section");
+  await new Promise(r => setTimeout(r, 150));
+  const ok = ret === false;
+  location.hash = "#/"; router();
+  return { ok };
+});
+await t("router renders contact page and fills connect-links", () => {
+  location.hash = "#/contact"; router();
+  const n = document.querySelectorAll("#connect-links a").length;
+  location.hash = "#/"; router();
+  return { ok: n >= 5, detail: n + " connect links" };
+});
+await t("media page: book without cover shows coming-soon tile", () => {
+  BOOKS.push({ slug: "_tmp", title: "Tmp", category: "X", formats: ["Paperback"],
+    links: { amazon: "", audible: "", apple: "", kobo: "", google: "" },
+    coverStyle: { bg: "#000", fg: "#fff", accent: "#c00", kicker: "K" },
+    learn: [], themes: [], description: "d", longDescription: "d", idealReader: "r", authorNote: "n", preview: "", year: "" });
+  try {
+    const html = PAGES["/media"].render();
+    return { ok: html.includes("Cover coming soon") && html.includes("Download cover") };
+  } finally { BOOKS.pop(); }
+});
+await t("renderBookPage: year, preview text, no subtitle, fiction wording", () => {
+  const fake = { slug: "_tmp2", title: "Tmp2", category: "Fiction and Historical Adventure",
+    formats: ["Paperback"], links: { amazon: "https://a", audible: "", apple: "", kobo: "", google: "" },
+    coverImage: "data:image/jpeg;base64,x", year: "2023",
+    learn: ["a"], themes: ["t"], longDescription: "L", idealReader: "R", authorNote: "N",
+    preview: "Para one.\n\nPara two.", seoTitle: "T", seoDescription: "D" };
+  const html = renderBookPage(fake);
+  return { ok: html.includes("<b>Published</b>2023") && html.includes("preview-panel")
+    && html.includes("Para two.") && html.includes("Experience") && !html.includes("undefined"),
+    detail: "" };
+});
+
 console.log("\n— data integrity —");
 await t("BOOKS: unique slugs, required fields, valid links", () => {
   const slugs = new Set(BOOKS.map(b => b.slug));
@@ -317,6 +389,33 @@ console.log(`\n========================================`);
 console.log(`${passed + failures.length} tests, ${passed} passed, ${failures.length} failed`);
 if (pageErrors.length) console.log("Page errors during run:", pageErrors);
 if (failures.length) { console.log("FAILED:"); failures.forEach(f => console.log("  - " + f)); }
+
+if (COVERAGE) {
+  const entries = await page.coverage.stopJSCoverage();
+  // The app's inline <script> is the largest script served from our origin.
+  const main = entries.filter(e => e.url.startsWith(BASE) && e.source)
+    .sort((a, b) => b.source.length - a.source.length)[0];
+  if (!main) { console.log("coverage: main script not found"); }
+  else {
+    const src = main.source;
+    const fns = main.functions.filter(f => f.functionName || f.ranges[0].endOffset - f.ranges[0].startOffset > 40);
+    const named = fns.filter(f => f.functionName);
+    const fnUncov = named.filter(f => f.ranges[0].count === 0);
+    let blocks = 0, blocksHit = 0; const missed = [];
+    for (const f of fns) for (const r of f.ranges) {
+      blocks++;
+      if (r.count > 0) blocksHit++;
+      else missed.push({ fn: f.functionName || "(anon)", snippet: src.slice(r.startOffset, Math.min(r.endOffset, r.startOffset + 78)).replace(/\s+/g, " ") });
+    }
+    const fnPct = named.length ? (100 * (named.length - fnUncov.length) / named.length) : 100;
+    const blkPct = blocks ? (100 * blocksHit / blocks) : 100;
+    console.log(`\n===== COVERAGE (V8, main inline script) =====`);
+    console.log(`functions: ${named.length - fnUncov.length}/${named.length} covered (${fnPct.toFixed(1)}%)`);
+    console.log(`branches/blocks: ${blocksHit}/${blocks} covered (${blkPct.toFixed(1)}%)`);
+    if (fnUncov.length) console.log("UNCOVERED FUNCTIONS: " + fnUncov.map(f => f.functionName).join(", "));
+    if (missed.length) { console.log("UNCOVERED BLOCKS:"); missed.forEach(m => console.log(`  [${m.fn}] ${m.snippet}`)); }
+  }
+}
 await browser.close();
 server.close();
 process.exit(failures.length || pageErrors.length ? 1 : 0);

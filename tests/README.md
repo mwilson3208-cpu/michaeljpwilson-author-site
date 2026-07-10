@@ -25,3 +25,20 @@ PLAYWRIGHT_MODULE=/path/to/playwright CHROMIUM_PATH=/path/to/chromium \
 
 The runner serves the repo on a random local port with a built-in static
 server, so no other tooling is needed. Exit code 0 = all tests passed.
+
+## Coverage
+
+```bash
+COVERAGE=1 node tests/unit-tests.mjs
+```
+
+Uses V8's native coverage (via Playwright) on the site's inline script and
+prints function- and branch/block-level coverage plus any uncovered source
+snippets. Current: **100% functions, ~98% branches**. The two known
+uncovered blocks are structurally unreachable from tests:
+
+1. the unconfigured-Formspree guard body inside the real `submitForm` — the
+   shipped endpoint constant *is* configured (correct production state); the
+   guard logic itself is tested against a functionally identical clone;
+2. the footer book-list fallback for a book without an Amazon link — top-level
+   code that runs once at page load, and every shipped book has an Amazon link.
