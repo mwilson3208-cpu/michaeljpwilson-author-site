@@ -1216,8 +1216,12 @@ function renderBookPage(b){
 /* ---------- router ---------- */
 function router(){
   const app=document.getElementById("app");
+  // In-page anchors like #speak-form are not routes: keep the current page and
+  // let the browser handle the scroll. (On a cold load with such a hash, fall
+  // through so the app still renders.)
+  if(location.hash && !location.hash.startsWith("#/") && app.innerHTML!=="") return;
   let path=(location.hash||"#/").slice(1);
-  if(path==="")path="/";
+  if(path===""||!path.startsWith("/"))path="/";
   let html,title,desc;
 
   if(path.startsWith("/books/")){
