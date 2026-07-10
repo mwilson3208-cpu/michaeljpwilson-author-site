@@ -330,7 +330,7 @@ footer{background:var(--navy-deep);color:#B9BFCB;padding:70px 0 34px;border-top:
 .footgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr;gap:44px}
 @media(max-width:860px){.footgrid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.footgrid{grid-template-columns:1fr}}
-footer h4{font-family:var(--serif);color:var(--white);font-size:1.05rem;margin-bottom:16px}
+footer h2{font-family:var(--serif);color:var(--white);font-size:1.05rem;margin-bottom:16px;font-weight:700;line-height:1.6;letter-spacing:normal}
 footer ul{list-style:none;display:grid;gap:9px}
 footer a{color:#B9BFCB;font-size:.92rem}
 footer a:hover{color:var(--gold-bright)}
@@ -390,15 +390,15 @@ footer a:hover{color:var(--gold-bright)}
   <div class="wrap">
     <div class="footgrid">
       <div>
-        <h4>Michael JP Wilson</h4>
+        <h2>Michael JP Wilson</h2>
         <p class="foot-state">Michael JP Wilson writes practical, inspiring books that help readers grow in leadership, business, relationships, mindset, faith, and purpose.</p>
       </div>
       <div>
-        <h4>Books</h4>
+        <h2>Books</h2>
         <ul id="footer-books"></ul>
       </div>
       <div>
-        <h4>Explore</h4>
+        <h2>Explore</h2>
         <ul id="explore-links">
           <li><a href="#/" onclick="return goToSection('about-the-author')">About Michael</a></li>
           <li><a href="#/speaking">Speaking</a></li>
@@ -408,7 +408,7 @@ footer a:hover{color:var(--gold-bright)}
         </ul>
       </div>
       <div>
-        <h4>Get the Free Guide</h4>
+        <h2>Get the Free Guide</h2>
         <p style="font-size:.9rem;margin-bottom:12px">10 Questions to Clarify the Book You Were Born to Write.</p>
         <form class="footer-form" onsubmit="return submitForm(event,'Free Guide Request (Footer)','#/guide')">
           <input type="email" name="email" placeholder="Email address" aria-label="Email address" required>
