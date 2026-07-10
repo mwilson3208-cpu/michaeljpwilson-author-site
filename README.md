@@ -18,8 +18,9 @@ The site is a lightweight single-page app with hash-based routing:
 | `#/about` | About the author |
 | `#/coaching` | Author coaching |
 | `#/speaking` | Speaking / book Michael to speak |
-| `#/media` | Media & interviews |
+| `#/media` | Media & interviews (bios + downloadable book covers) |
 | `#/contact` | Contact |
+| `#/guide` | Free-guide download page (shown after a successful opt-in) |
 
 ## Running locally
 
@@ -60,17 +61,22 @@ Other one-drag-and-drop options: **Netlify**, **Cloudflare Pages**, or **Vercel*
   with Georgia / system-sans fallbacks if the CDN is unavailable.
 - **Forms:** All five forms (contact, speaking, media, and the two free-guide
   email opt-ins) submit via AJAX to **[Formspree](https://formspree.io)** with
-  inline sending / success / error states — no page reload. To turn them on:
-  1. Create a free form at formspree.io and copy its endpoint
-     (`https://formspree.io/f/<your-id>`).
-  2. Open `index.html`, find `const FORMSPREE_ENDPOINT =` near the top of the
-     `<script>`, and replace `REPLACE_WITH_YOUR_FORM_ID` with your endpoint.
-  3. Copy `index.html` over `404.html` so both stay identical, then redeploy.
-
-  All forms post to the one endpoint; each submission is tagged with a subject
-  (e.g. "Speaking Inquiry — michaeljpwilson.com") so you can tell them apart.
-  Until the endpoint is set, a form politely reports that it isn't connected yet.
-  The two email opt-ins work through Formspree too, but a dedicated email
-  platform (Mailchimp, ConvertKit, etc.) is better for building a mailing list.
+  inline sending / success / error states — no page reload. The live endpoint
+  is set in `const FORMSPREE_ENDPOINT` near the top of the `<script>` in
+  `index.html`. All forms post to that one endpoint; each submission is tagged
+  with a subject (e.g. "Speaking Inquiry — michaeljpwilson.com") so you can
+  tell them apart in your inbox and the Formspree dashboard.
+- **Free guide delivery:** after a successful opt-in, visitors are redirected
+  to `#/guide`, which serves `downloads/10-questions-book-clarity-guide.pdf`.
+  `robots.txt` disallows `/downloads/` so the guide stays out of search results.
+  For a real mailing list (automated sequences, tagging), migrate the opt-ins
+  to an email platform (Mailchimp, ConvertKit, etc.) later.
+- **Social & author links:** edit `AUTHOR_LINKS` in `index.html`. Networks with
+  icons (Facebook, LinkedIn, Instagram, YouTube) render as footer icon buttons;
+  other links (Amazon, B&N, audiobook pages) render under the footer's Explore
+  column and on the Contact page. Empty entries stay hidden — no dead links.
+- **Editing content that lives in one place:** keep `404.html` an exact copy of
+  `index.html` after any edit (`cp index.html 404.html`) — it's what makes deep
+  links work on GitHub Pages.
 - **Books** link out to Michael's
   [Amazon author store](https://www.amazon.com/stores/Michael-Wilson/author/B0BNP91RPR).
