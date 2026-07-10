@@ -580,7 +580,7 @@ const LINK_LABELS = { amazon: "Buy on Amazon", audible: "Listen to the Audiobook
 const PH_LABELS   = { amazon: "Amazon link coming soon", audible: "Audiobook link coming soon", apple: "Apple Books link coming soon", kobo: "Kobo link coming soon", google: "Google Books link coming soon" };
 
 /* ---------- helpers ---------- */
-function esc(s){return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function esc(s){return (s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 
 function coverHTML(b, extra=""){
   if(b.coverImage){
