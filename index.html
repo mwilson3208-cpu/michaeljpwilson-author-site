@@ -89,7 +89,7 @@
       "@type": "Book",
       "name": "The Profit Growth Engine",
       "alternateName": "The Profit Growth Engine: A Five-Gear System to Find Hidden Profits, Fix Revenue Leaks, and Grow Your Service Business on Purpose",
-      "author": {"@id": "https://michaeljpwilson.com/#person"},
+      "author": [{"@id": "https://michaeljpwilson.com/#person"}, {"@type": "Person", "name": "Cristina Wilson"}],
       "genre": "Business and Growth",
       "url": "https://michaeljpwilson.com/#/books/the-profit-growth-engine",
       "sameAs": "https://www.amazon.com/Profit-Growth-Engine-Five-Gear-Business-ebook/dp/B0HG67SYSF",
@@ -408,7 +408,7 @@ footer a:hover{color:var(--gold-bright)}
   <div style="max-width:720px;margin:60px auto;padding:0 24px;font-family:Georgia,serif;line-height:1.6">
     <h1>Michael JP Wilson — Author, Army Veteran, Entrepreneur</h1>
     <p>Michael JP Wilson writes practical, inspiring books for entrepreneurs, leaders, veterans, and professionals — on networking, leadership, business, AI visibility, and purpose. He is an Army veteran, speaker, author coach, and founder of Entrepreneur Power Network.</p>
-    <p>Books by Michael JP Wilson: <em>Network Like A Millionaire</em>, <em>The Shopping Cart Test</em>, <em>AIO: The New SEO</em>, <em>The Profit Growth Engine</em>, <em>The Six Stone Jars</em>, <em>The Stranger in the Park</em> (with Cristina Wilson), <em>A Nation of Thunder</em> (The Storm Wars Series), and the <em>Little Entrepreneurs Coloring Book</em>.</p>
+    <p>Books by Michael JP Wilson: <em>Network Like A Millionaire</em>, <em>The Shopping Cart Test</em>, <em>AIO: The New SEO</em>, <em>The Profit Growth Engine</em> (with Cristina Wilson), <em>The Six Stone Jars</em>, <em>The Stranger in the Park</em> (with Cristina Wilson), <em>A Nation of Thunder</em> (The Storm Wars Series), and the <em>Little Entrepreneurs Coloring Book</em>.</p>
     <p>Find his books on the <a href="https://www.amazon.com/stores/Michael-Wilson/author/B0BNP91RPR">Amazon Author Page</a>.</p>
     <p>This site works best with JavaScript enabled.</p>
   </div>
@@ -553,9 +553,10 @@ const BOOKS = [
     slug: "the-profit-growth-engine",
     title: "The Profit Growth Engine",
     subtitle: "A Five-Gear System to Find Hidden Profits, Fix Revenue Leaks, and Grow Your Service Business on Purpose",
-    author: "Michael JP Wilson",
+    author: "Cristina Wilson and Michael JP Wilson",
     category: "Business and Growth",
     year: "",
+    coverImage: "images/profit-growth-engine-cover.jpg",
     coverStyle: { bg: "linear-gradient(160deg,#10403A,#08211E)", fg: "#FFFFFF", accent: "#D9B879", kicker: "Business and Growth" },
     shortDescription: "Your business is probably not broken. It is leaking. A five-gear system for service business owners who are tired of chasing growth and ready to produce it, starting with the money already hiding inside the business.",
     longDescription: "Every Monday you sit down with the same thought. The pipeline looks thin. The team is busy. The bank account does not reflect the work. So you go looking for more leads. But if twice as many leads walked in tomorrow, would the business actually grow, or would the same percentage close, at the same average price, with the same margin and the same retention? The lead problem is rarely the real problem. The money you are missing is already inside your business, sitting in your pricing, your offers, your follow-up, your conversion, your retention, and your customer mix, and it is walking out through leaks quiet enough that you have never seen them. Built from years of coaching business owners and leading teams under pressure, The Profit Growth Engine runs on five gears that turn together: Diagnose, to find the money hiding in your business right now with the Revenue Leak Audit; Position, to become the obvious choice in your market instead of competing on price; Monetize, to build offers that are hard to refuse and price them for margin and confidence; Acquire, to turn your expertise into steady lead flow and replace hope with a real conversion system; and Compound, to keep customers longer, track the numbers that actually drive profit, and run the business in focused 90-day cycles. Inside are seven tools you will use over and over: the Revenue Leak Audit, the Authority Position Map, the Offer Architect, the Pricing Ladder, the Partnership Map, the One-Page Growth Dashboard, and the 90-Day Profit Sprint Planner. This is not a book about working harder. The boring fixes are the big fixes. A ten percent price increase on the right offer can move your profit picture more than a thirty percent jump in leads. Every chapter ends with a clear next move.",
@@ -575,10 +576,10 @@ const BOOKS = [
     ],
     formats: ["Ebook"],
     links: { amazon: "https://www.amazon.com/Profit-Growth-Engine-Five-Gear-Business-ebook/dp/B0HG67SYSF", bn: "", audible: "", apple: "", kobo: "", google: "" },
-    authorNote: "I wrote this because I kept watching good owners answer every problem with the same word: leads. More leads, more marketing, more hustle. Meanwhile the real money was sitting in their pricing, their follow-up, and the customers they already had. The owners who win do not win on one brilliant breakthrough. They win because they built a system that produces small, consistent improvements across the whole business at the same time. Work the five gears in order, take the next move at the end of each chapter before you move on, and let the compounding do what hustle cannot.",
+    authorNote: "We wrote this because we kept watching good owners answer every problem with the same word: leads. More leads, more marketing, more hustle. Meanwhile the real money was sitting in their pricing, their follow-up, and the customers they already had. The owners who win do not win on one brilliant breakthrough. They win because they built a system that produces small, consistent improvements across the whole business at the same time. Work the five gears in order, take the next move at the end of each chapter before you move on, and let the compounding do what hustle cannot.",
     preview: "",
-    seoTitle: "The Profit Growth Engine by Michael JP Wilson | A Five-Gear System for Service Business Growth",
-    seoDescription: "The Profit Growth Engine by Michael JP Wilson is a five-gear system for service business owners to find hidden profits, fix revenue leaks, and grow on purpose, with seven practical tools and 90-day sprints."
+    seoTitle: "The Profit Growth Engine by Cristina and Michael JP Wilson | A Five-Gear System for Service Business Growth",
+    seoDescription: "The Profit Growth Engine by Cristina and Michael JP Wilson is a five-gear system for service business owners to find hidden profits, fix revenue leaks, and grow on purpose, with seven practical tools and 90-day sprints."
   },
   {
     slug: "the-six-stone-jars",
@@ -1164,7 +1165,7 @@ const PAGES = {
           <p>Michael JP Wilson is an author, Army veteran, entrepreneur, speaker, and founder of Entrepreneur Power Network. He writes practical, inspiring books on networking, leadership, community, and purpose, and coaches entrepreneurs and thought leaders on turning their expertise into published nonfiction books.</p>
           <h2 class="sub">Long Bio</h2>
           <p>Michael JP Wilson is an author, Army veteran, entrepreneur, speaker, author coach, and founder of Entrepreneur Power Network, a membership-based business community. His military service shaped his approach to leadership, discipline, and responsibility, and his entrepreneurial career turned those lessons into practical systems for growth.</p>
-          <p class="mt-24">Michael is the author of Network Like A Millionaire, The Shopping Cart Test, AIO: The New SEO, The Profit Growth Engine, The Six Stone Jars, The Stranger in the Park (co-authored with Cristina Wilson), A Nation of Thunder, and the Little Entrepreneurs Coloring Book. As an author coach, he helps entrepreneurs, professionals, and thought leaders use AI as a strategic writing partner to publish nonfiction books that build authority, always preserving the author's voice, message, and intent. He speaks on networking, leadership, authorship, AI, community building, and personal growth.</p>
+          <p class="mt-24">Michael is the author of Network Like A Millionaire, The Shopping Cart Test, AIO: The New SEO, The Six Stone Jars, A Nation of Thunder, and the Little Entrepreneurs Coloring Book, and co-author with Cristina Wilson of The Profit Growth Engine and The Stranger in the Park. As an author coach, he helps entrepreneurs, professionals, and thought leaders use AI as a strategic writing partner to publish nonfiction books that build authority, always preserving the author's voice, message, and intent. He speaks on networking, leadership, authorship, AI, community building, and personal growth.</p>
         </div>
         <div>
           <img class="portrait square" style="margin-bottom:20px" src="${AUTHOR_PHOTO}" alt="Michael JP Wilson media headshot">
