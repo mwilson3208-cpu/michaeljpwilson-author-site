@@ -97,6 +97,16 @@
     },
     {
       "@type": "Book",
+      "name": "The Stranger in the Park",
+      "alternateName": "The Stranger in the Park: A True Story of Faith, Marriage, and a Calling We Answered Together",
+      "author": [{"@id": "https://michaeljpwilson.com/#person"}, {"@type": "Person", "name": "Cristina Wilson"}],
+      "genre": "Faith and Marriage",
+      "url": "https://michaeljpwilson.com/#/books/the-stranger-in-the-park",
+      "sameAs": "https://www.amazon.com/Stranger-Park-Marriage-Answered-Together-ebook/dp/B0HJ2YSVDN",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Book",
       "name": "A Nation of Thunder",
       "alternateName": "A Nation of Thunder: The Storm Wars Series, Book One",
       "author": {"@id": "https://michaeljpwilson.com/#person"},
@@ -388,7 +398,7 @@ footer a:hover{color:var(--gold-bright)}
   <div style="max-width:720px;margin:60px auto;padding:0 24px;font-family:Georgia,serif;line-height:1.6">
     <h1>Michael JP Wilson — Author, Army Veteran, Entrepreneur</h1>
     <p>Michael JP Wilson writes practical, inspiring books for entrepreneurs, leaders, veterans, and professionals — on networking, leadership, business, AI visibility, and purpose. He is an Army veteran, speaker, author coach, and founder of Entrepreneur Power Network.</p>
-    <p>Books by Michael JP Wilson: <em>Network Like A Millionaire</em>, <em>The Shopping Cart Test</em>, <em>AIO: The New SEO</em>, <em>369 Manifestation Method</em>, <em>A Nation of Thunder</em> (The Storm Wars Series), and the <em>Little Entrepreneurs Coloring Book</em>.</p>
+    <p>Books by Michael JP Wilson: <em>Network Like A Millionaire</em>, <em>The Shopping Cart Test</em>, <em>AIO: The New SEO</em>, <em>369 Manifestation Method</em>, <em>The Stranger in the Park</em> (with Cristina Wilson), <em>A Nation of Thunder</em> (The Storm Wars Series), and the <em>Little Entrepreneurs Coloring Book</em>.</p>
     <p>Find his books on the <a href="https://www.amazon.com/stores/Michael-Wilson/author/B0BNP91RPR">Amazon Author Page</a>.</p>
     <p>This site works best with JavaScript enabled.</p>
   </div>
@@ -557,6 +567,33 @@ const BOOKS = [
     seoDescription: "369 Manifestation Method by Michael JP Wilson turns Nikola Tesla's famous 3-6-9 idea into a simple daily practice for clarity, focus, and intentional action."
   },
   {
+    slug: "the-stranger-in-the-park",
+    title: "The Stranger in the Park",
+    subtitle: "A True Story of Faith, Marriage, and a Calling We Answered Together",
+    author: "Cristina Wilson and Michael JP Wilson",
+    category: "Faith and Marriage",
+    year: "",
+    coverStyle: { bg: "linear-gradient(160deg,#F4F1EB,#EBDDBE)", fg: "#0F1E33", accent: "#A87F3D", kicker: "Faith and Marriage" },
+    shortDescription: "When a stranger pushing a shopping cart approached Cristina and Michael in a South Texas park, said \"Join in union,\" and vanished, they chose to follow the message. This is the true story of the marriage and calling that followed.",
+    longDescription: "When Cristina and Michael Wilson sat together in a South Texas park to talk through an uncertain future, a stranger pushing a shopping cart approached them, said \"Join in union,\" and moments later was gone. They chose to follow the message. The Stranger in the Park is the true story of a marriage built through love, obedience, sacrifice, and an unwavering commitment to God and to each other. Their journey carries them from South Texas to Alaska, through military service, deployments, family separation, changing roles, career challenges, business ownership, nonprofit work, and the responsibility of raising a family while answering separate callings.",
+    promise: "A true story of what happens when two people say yes to a calling together.",
+    idealReader: "Couples navigating faith, calling, and seasons of change; military families; and readers who love true stories of marriage, obedience, and purpose lived out through real challenges.",
+    themes: ["Faith and obedience", "Marriage and partnership", "Calling and purpose", "Military family life", "Sacrifice and commitment", "Building a life together"],
+    learn: [
+      "How a single moment of obedience can shape a lifetime together",
+      "What it takes to keep a marriage strong through deployments and separation",
+      "How to navigate changing roles, careers, and callings as a couple",
+      "Why sacrifice and commitment are daily choices, not one-time vows",
+      "How faith can anchor a family through uncertainty and change"
+    ],
+    formats: ["Paperback", "Ebook"],
+    links: { amazon: "https://www.amazon.com/Stranger-Park-Marriage-Answered-Together-ebook/dp/B0HJ2YSVDN", bn: "", audible: "", apple: "", kobo: "", google: "" },
+    authorNote: "Cristina and I wrote this book together because the story belongs to both of us. It started with a stranger, a shopping cart, and three words we could not ignore. Everything we have built since — our family, our businesses, our work — grew out of that yes. We share it in the hope that it encourages you to answer your own calling, whatever it looks like.",
+    preview: "",
+    seoTitle: "The Stranger in the Park by Cristina Wilson and Michael JP Wilson | A True Story of Faith and Marriage",
+    seoDescription: "The Stranger in the Park by Cristina Wilson and Michael JP Wilson is the true story of a marriage and calling answered together, from South Texas to Alaska, through military service, business, and family."
+  },
+  {
     slug: "a-nation-of-thunder",
     title: "A Nation of Thunder",
     subtitle: "The Storm Wars Series, Book One",
@@ -627,7 +664,7 @@ function coverHTML(b, extra=""){
   return `<div class="bookobj" style="background:${s.bg};color:${s.fg}" ${extra} role="img" aria-label="${esc(b.title)} cover placeholder">
     <div class="b-kicker" style="color:${s.accent}">${esc(s.kicker)}</div>
     <div class="b-title">${esc(b.title)}</div>
-    <div class="b-author">Michael JP Wilson</div>
+    <div class="b-author">${esc(b.author||"Michael JP Wilson")}</div>
   </div>`;
 }
 
@@ -1082,7 +1119,7 @@ const PAGES = {
           <p>Michael JP Wilson is an author, Army veteran, entrepreneur, speaker, and founder of Entrepreneur Power Network. He writes practical, inspiring books on networking, leadership, community, and purpose, and coaches entrepreneurs and thought leaders on turning their expertise into published nonfiction books.</p>
           <h2 class="sub">Long Bio</h2>
           <p>Michael JP Wilson is an author, Army veteran, entrepreneur, speaker, author coach, and founder of Entrepreneur Power Network, a membership-based business community. His military service shaped his approach to leadership, discipline, and responsibility, and his entrepreneurial career turned those lessons into practical systems for growth.</p>
-          <p class="mt-24">Michael is the author of Network Like A Millionaire, The Shopping Cart Test, AIO: The New SEO, 369 Manifestation Method, A Nation of Thunder, and the Little Entrepreneurs Coloring Book. As an author coach, he helps entrepreneurs, professionals, and thought leaders use AI as a strategic writing partner to publish nonfiction books that build authority, always preserving the author's voice, message, and intent. He speaks on networking, leadership, authorship, AI, community building, and personal growth.</p>
+          <p class="mt-24">Michael is the author of Network Like A Millionaire, The Shopping Cart Test, AIO: The New SEO, 369 Manifestation Method, The Stranger in the Park (co-authored with Cristina Wilson), A Nation of Thunder, and the Little Entrepreneurs Coloring Book. As an author coach, he helps entrepreneurs, professionals, and thought leaders use AI as a strategic writing partner to publish nonfiction books that build authority, always preserving the author's voice, message, and intent. He speaks on networking, leadership, authorship, AI, community building, and personal growth.</p>
         </div>
         <div>
           <img class="portrait square" style="margin-bottom:20px" src="${AUTHOR_PHOTO}" alt="Michael JP Wilson media headshot">
