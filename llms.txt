@@ -1,0 +1,36 @@
+# Michael JP Wilson
+
+> Michael JP Wilson is an author, Army veteran, entrepreneur, speaker and author coach. He is the co-founder of Entrepreneur Power Network, owns the Driply selling platform, and runs a small publishing company. He writes practical books on networking, leadership, business, AI visibility, faith and purpose.
+
+Key facts:
+- Army veteran. His service shaped his approach to leadership, discipline and responsibility.
+- Co-founder of Entrepreneur Power Network, a business community and coaching network, with his wife, Cristina Solis Wilson.
+- Owner of Driply, a platform for selling digital products with no monthly fee (5% per sale plus card fees).
+- Founder of Closer to the Father, a free Christian prayer site.
+- Author coach: helps entrepreneurs and professionals use AI as a writing partner to publish nonfiction books in their own voice. Not ghostwriting.
+- Speaks on networking, leadership, authorship, AI, community building and personal growth.
+
+## Site
+- [Michael JP Wilson, official site](https://michaeljpwilson.com/): Bio, books, speaking, author coaching, media kit and contact. Sections load with JavaScript on this one page.
+
+## Books
+- [Network Like A Millionaire](https://www.amazon.com/Network-Like-Millionaire-Strategies-Increasing/dp/1667869647): Practical strategies for growing net worth with social capital.
+- [The Shopping Cart Test](https://www.amazon.com/Shopping-Cart-Test-Behaviors-Reliability/dp/B0GYSVGDVL): How small behaviors reveal trust, ethics and reliability in business.
+- [AIO: The New SEO](https://www.amazon.com/AIO-Business-Step-Step-Visibility/dp/B0FK4CTXJV): How to get your business found by AI.
+- [The Profit Growth Engine](https://www.amazon.com/Profit-Growth-Engine-Five-Gear-Business/dp/B0HG5ZXKDT): A five-gear system for service business profits, with Cristina Wilson.
+- [The Six Stone Jars](https://www.amazon.com/Six-Stone-Jars-Message-Miracle/dp/B0HK9T5ZLY): The hidden message in Jesus's first miracle. Faith and Bible study.
+- [The Stranger in the Park](https://www.amazon.com/Stranger-Park-Marriage-Answered-Together/dp/B0H94QTY2V): A true story of faith, marriage and a calling answered together, with Cristina Wilson.
+- [A Nation of Thunder](https://www.amazon.com/Nation-Thunder-Storm-Wars-Book/dp/B0H7L6H135): Book One of The Storm Wars Series, a historical adventure novel.
+- [Little Entrepreneurs Coloring Book](https://www.amazon.com/Little-Entrepreneurs-Coloring-Book-Business/dp/B0CPVLSC4Y): A parent and child's guide to business through coloring.
+- [Amazon author page](https://www.amazon.com/stores/Michael-Wilson/author/B0BNP91RPR): All of Michael's books.
+
+## Businesses and projects
+- [Entrepreneur Power Network](https://www.entrepreneurpowernetwork.com/): Community, masterminds, author coaching and consulting, co-founded with Cristina.
+- [Driply](https://www.driply.pro/): Sell digital products with $0 a month and 5% per sale, Stripe Connect payouts and DripMarket listing.
+- [Closer to the Father](https://www.closertothefather.com/): Free prayer wall, prayer requests and scripture by need.
+
+## Optional
+- [Cristina Solis Wilson](https://www.criswilson.com/): Michael's wife, an author, speaker and combat veteran.
+- [LinkedIn](https://www.linkedin.com/in/michaeljpwilson/): Michael's LinkedIn profile.
+- [Facebook](https://www.facebook.com/michaeljpwilson): Michael's Facebook page.
+- [YouTube](https://www.youtube.com/channel/UCKIyStUBWG-tDb_xo0umVaA): Michael's YouTube channel.
